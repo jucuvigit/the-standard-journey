@@ -3,3 +3,5 @@ check.js
 .tmp/
 shots/
 .edge-profile/
+pages.js
+smoke.js

@@ -252,6 +252,16 @@
     });
     const btn = $("#langBtn");
     if (btn) $("[data-lang-label]", btn).textContent = next === "es" ? "ES" : "EN";
+
+    // reformatear contadores ya animados al idioma nuevo
+    $$("[data-count]").forEach(function (el) {
+      if (el.dataset && el.dataset.done) {
+        const v = parseFloat(el.getAttribute("data-count"));
+        const d = parseInt(el.getAttribute("data-decimals") || "0", 10);
+        if (!isNaN(v)) el.textContent = nf(v, d);
+      }
+    });
+
     renderHighway();
     renderWinter(currentWinter);
     renderDegradation();
@@ -303,7 +313,7 @@
       const eased = 1 - Math.pow(1 - p, 3);
       el.textContent = nf(target * eased, dec);
       if (p < 1) requestAnimationFrame(step);
-      else el.textContent = nf(target, dec);
+      else { el.textContent = nf(target, dec); el.dataset.done = "1"; }
     })(t0);
   }
 
